@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AM Lab — Applied Mathematics Practicals</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4' y='19' width='16' height='3' rx='1.2' fill='%239c4b00'/%3E%3Crect x='4' y='3.5' width='16' height='14.5' rx='1.5' fill='%235ac8ee'/%3E%3Crect x='6' y='1.8' width='2' height='3.2' rx='1' fill='%23005575'/%3E%3Crect x='9.3' y='1.8' width='2' height='3.2' rx='1' fill='%23005575'/%3E%3Crect x='12.7' y='1.8' width='2' height='3.2' rx='1' fill='%23005575'/%3E%3Crect x='16' y='1.8' width='2' height='3.2' rx='1' fill='%23005575'/%3E%3Crect x='7' y='7.4' width='10' height='1.8' rx='0.9' fill='%23005575'/%3E%3Crect x='7' y='10.6' width='10' height='1.8' rx='0.9' fill='%23005575'/%3E%3Crect x='7' y='13.8' width='10' height='1.8' rx='0.9' fill='%23005575'/%3E%3C/svg%3E"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f3f3f3;
+    color: #1a1a1a;
+    min-height: 100vh;
+  }
+
+  /* ===== INDEX PAGE ===== */
+  #index-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .top-bar {
+    background: #fff;
+    border-bottom: 1px solid #d0d0d0;
+    padding: 0 24px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+  }
+
+  .top-bar-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .top-bar-title {
+    font-size: 13px;
+    font-weight: 400;
+    color: #1a1a1a;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #0078d4 0%, #005a9e 100%);
+    color: #fff;
+    padding: 48px 32px 40px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -.3px;
+    margin-bottom: 8px;
+  }
+
+  .hero p {
+    font-size: 14px;
+    opacity: .85;
+  }
+
+  .grid-wrapper {
+    padding: 32px 24px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #555;
+    margin-bottom: 14px;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 18px 16px 14px;
+    cursor: pointer;
+    transition: box-shadow .15s, border-color .15s, transform .1s;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    user-select: none;
+  }
+
+  .card:hover {
+    border-color: #0078d4;
+    box-shadow: 0 4px 16px rgba(0,120,212,.15);
+    transform: translateY(-1px);
+  }
+
+  .card:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0,120,212,.1);
+  }
+
+  .card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    background: #e8f4ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a1a1a;
+    line-height: 1.4;
+  }
+
+  .card-hint {
+    font-size: 11px;
+    color: #888;
+    margin-top: 2px;
+  }
+
+  /* ===== NOTEPAD OVERLAY ===== */
+  #notepad-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    flex-direction: column;
+    background: #f3f3f3;
+  }
+
+  #notepad-overlay.open {
+    display: flex;
+  }
+
+  /* Title bar */
+  .np-titlebar {
+    background: #eeedf2;
+    display: flex;
+    align-items: flex-end;
+    height: 40px;
+    padding: 0 0 0 14px;
+    gap: 10px;
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  .np-titlebar-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-bottom: 11px;
+  }
+
+  .np-tabs {
+    display: flex;
+    align-items: flex-end;
+    flex: 1;
+    height: 100%;
+    gap: 2px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    padding-top: 6px;
+  }
+
+  .np-tabs::-webkit-scrollbar { display: none; }
+
+  .np-tab {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0 8px 0 12px;
+    height: 34px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-bottom: none;
+    border-radius: 7px 7px 0 0;
+    font-size: 12px;
+    color: #555;
+    cursor: pointer;
+    min-width: 130px;
+    max-width: 210px;
+    white-space: nowrap;
+    overflow: hidden;
+    flex-shrink: 0;
+    position: relative;
+    transition: background .1s;
+    user-select: none;
+  }
+
+  .np-tab.active {
+    background: #f9f9f9;
+    color: #1a1a1a;
+    border-color: #e3e2e7;
+    z-index: 1;
+  }
+
+  .np-tab:hover:not(.active) {
+    background: rgba(0, 0, 0, .04);
+  }
+
+  .np-tab-label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+  }
+
+  .np-tab-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #555;
+    flex-shrink: 0;
+    margin-right: 6px;
+    display: none;
+  }
+
+  .np-tab.modified .np-tab-dot { display: block; }
+  .np-tab.modified .np-tab-close-btn { display: none; }
+  .np-tab.modified:hover .np-tab-dot { display: none; }
+  .np-tab.modified:hover .np-tab-close-btn { display: flex; }
+
+  .np-tab-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-left: 4px;
+    color: #555;
+    font-size: 10px;
+    line-height: 1;
+  }
+
+  .np-tab-close-btn:hover {
+    background: rgba(0, 0, 0, .08);
+    color: #1a1a1a;
+  }
+
+  .np-tab.active .np-tab-close-btn:hover {
+    background: #e6e6e6;
+  }
+
+  .np-tab-new {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #555;
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-left: 2px;
+    margin-bottom: 3px;
+    line-height: 1;
+  }
+
+  .np-tab-new:hover {
+    background: rgba(0, 0, 0, .06);
+    color: #1a1a1a;
+  }
+
+  .np-winctrls {
+    display: flex;
+    align-items: stretch;
+    flex-shrink: 0;
+    margin-left: auto;
+    height: 40px;
+  }
+
+  .np-winbtn {
+    width: 46px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #1a1a1a;
+    background: transparent;
+    border: none;
+    outline: none;
+    transition: background .1s;
+  }
+
+  .np-winbtn:hover {
+    background: #e0dfe4;
+  }
+
+  .np-winbtn.close:hover {
+    background: #c42b1c;
+  }
+
+  .np-winbtn.close:hover svg path,
+  .np-winbtn.close:hover svg line {
+    stroke: #fff;
+  }
+
+  /* Menu + Right Actions bar (2nd bar) */
+  .np-menubar {
+    background: #f9f9f9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 36px;
+    padding: 0 10px 0 6px;
+    border-bottom: 1px solid #e5e5e5;
+    flex-shrink: 0;
+    user-select: none;
+    position: relative;
+    z-index: 200;
+  }
+
+  .np-menus {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 2px;
+  }
+
+  .np-menu-item {
+    padding: 0 11px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #1a1a1a;
+    cursor: default;
+    border-radius: 4px;
+    position: relative;
+  }
+
+  .np-menu-item:hover,
+  .np-menu-item.active {
+    background: rgba(0, 0, 0, .05);
+  }
+
+  /* ===== DROPDOWN MENUS ===== */
+  .np-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 260px;
+    background: #fff;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    box-shadow: 0 6px 24px rgba(0,0,0,.18);
+    z-index: 999;
+    padding: 4px 0;
+    animation: ddFade .08s ease;
+  }
+
+  @keyframes ddFade {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .np-dropdown.show { display: block; }
+
+  .np-dd-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 16px 6px 20px;
+    font-size: 13px;
+    color: #1a1a1a;
+    cursor: default;
+    gap: 32px;
+    white-space: nowrap;
+  }
+
+  .np-dd-item:hover {
+    background: #e8f4ff;
+    color: #0063b1;
+  }
+
+  .np-dd-item.disabled {
+    color: #aaa;
+    pointer-events: none;
+  }
+
+  .np-dd-item .shortcut {
+    color: #888;
+    font-size: 12px;
+    margin-left: auto;
+  }
+
+  .np-dd-item:hover .shortcut { color: #5ba0d0; }
+  .np-dd-item.disabled .shortcut { color: #ccc; }
+
+  .np-dd-sep {
+    height: 1px;
+    background: #e8e8e8;
+    margin: 4px 0;
+  }
+
+  .np-dd-item .dd-check {
+    width: 16px;
+    margin-right: 4px;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  .np-dd-item .dd-arrow {
+    font-size: 11px;
+    color: #888;
+    margin-left: 8px;
+  }
+
+  /* Right-side action buttons in menu bar */
+  .np-tb-btn {
+    width: 30px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    cursor: default;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    border: 1px solid transparent;
+  }
+
+  .np-tb-btn:hover {
+    background: rgba(0, 0, 0, .05);
+  }
+
+  .np-tb-split {
+    width: auto;
+    padding: 0 7px;
+    gap: 6px;
+  }
+
+  .np-tb-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* The actual copy button styled as a normal toolbar icon */
+  .np-copy-btn {
+    width: 30px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #333;
+    border: 1px solid transparent;
+    background: transparent;
+    position: relative;
+  }
+
+  .np-copy-btn:hover {
+    background: rgba(0, 0, 0, .05);
+  }
+
+  .np-copy-btn.copied::after {
+    content: "Copied!";
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 500;
+  }
+
+  /* Export to Notepad button */
+  .np-export-btn {
+    width: 30px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: transparent;
+    position: relative;
+  }
+
+  .np-export-btn:hover {
+    background: #e8f4ff;
+    border-color: #0078d4;
+  }
+
+  .np-export-btn.saved::after {
+    content: "Saved!";
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: #0078d4;
+    color: #fff;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 500;
+  }
+
+  /* Content area */
+  .np-content {
+    flex: 1;
+    background: #fff;
+    overflow: auto;
+    position: relative;
+  }
+
+  .np-textarea {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 16px 20px;
+    color: #1a1a1a;
+    background: #fff;
+    white-space: pre;
+    overflow-wrap: normal;
+    overflow-x: auto;
+    caret-color: #0078d4;
+  }
+
+  /* Status bar */
+  .np-statusbar {
+    background: #f3f3f3;
+    border-top: 1px solid #d0d0d0;
+    display: flex;
+    align-items: center;
+    height: 24px;
+    padding: 0 16px;
+    gap: 24px;
+    flex-shrink: 0;
+    font-size: 12px;
+    color: #555;
+    user-select: none;
+  }
+
+  .np-status-right {
+    margin-left: auto;
+    display: flex;
+    gap: 24px;
+  }
+
+  /* Scrollbar */
+  .np-textarea::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .np-textarea::-webkit-scrollbar-track {
+    background: #f3f3f3;
+  }
+
+  .np-textarea::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border-radius: 4px;
+  }
+
+  .np-textarea::-webkit-scrollbar-thumb:hover {
+    background: #a0a0a0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== INDEX PAGE ===== -->
+<div id="index-page">
+  <div class="top-bar">
+    <svg class="top-bar-icon" viewBox="0 0 24 24" fill="none">
+      <defs>
+        <linearGradient id="npGradTop" x1="4" y1="3.5" x2="20" y2="18" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#80d9f7"/>
+          <stop offset="100%" stop-color="#3eb2df"/>
+        </linearGradient>
+      </defs>
+      <rect x="4" y="19" width="16" height="3" rx="1.2" fill="#9c4b00"/>
+      <rect x="4" y="3.5" width="16" height="14.5" rx="1.5" fill="url(#npGradTop)"/>
+      <rect x="6" y="1.8" width="2" height="3.2" rx="1" fill="#005575"/>
+      <rect x="9.3" y="1.8" width="2" height="3.2" rx="1" fill="#005575"/>
+      <rect x="12.7" y="1.8" width="2" height="3.2" rx="1" fill="#005575"/>
+      <rect x="16" y="1.8" width="2" height="3.2" rx="1" fill="#005575"/>
+      <rect x="7" y="7.4" width="10" height="1.8" rx="0.9" fill="#005575"/>
+      <rect x="7" y="10.6" width="10" height="1.8" rx="0.9" fill="#005575"/>
+      <rect x="7" y="13.8" width="10" height="1.8" rx="0.9" fill="#005575"/>
+    </svg>
+    <span class="top-bar-title">SY B.Tech — Applied Mathematics Lab &nbsp;|&nbsp; Practicals Index</span>
+  </div>
+
+  <div class="hero">
+    <h1>Applied Mathematics Lab</h1>
+    <p>SY B.Tech &nbsp;·&nbsp; Select a practical below to open it in Notepad view</p>
+  </div>
+
+  <div class="grid-wrapper">
+    <div class="section-label">All Practicals — Click to Open</div>
+    <div class="cards-grid">
+        <div class="card" onclick="openNotepad('1A')">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4h10l6 6v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="#0078d4" stroke-width="1.5" fill="#e8f4ff"/>
+              <path d="M14 4v6h6" stroke="#0078d4" stroke-width="1.5" fill="none"/>
+              <line x1="8" y1="13" x2="16" y2="13" stroke="#0078d4" stroke-width="1.2"/>
+              <line x1="8" y1="16" x2="14" y2="16" stroke="#0078d4" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="card-title">Practical 1A — Matrix Addition, Multiplication &amp; Scalar Operations</div>
+          <div class="card-hint">Click to open</div>
+        </div>
+        <div class="card" onclick="openNotepad('1B')">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4h10l6 6v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="#0078d4" stroke-width="1.5" fill="#e8f4ff"/>
+              <path d="M14 4v6h6" stroke="#0078d4" stroke-width="1.5" fill="none"/>
+              <line x1="8" y1="13" x2="16" y2="13" stroke="#0078d4" stroke-width="1.2"/>
+              <line x1="8" y1="16" x2="14" y2="16" stroke="#0078d4" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="card-title">Practical 1B — Eigenvalues, Eigenvectors &amp; Diagonalization</div>
+          <div class="card-hint">Click to open</div>
+        </div>
+        <div class="card" onclick="openNotepad('2A')">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4h10l6 6v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="#0078d4" stroke-width="1.5" fill="#e8f4ff"/>
+              <path d="M14 4v6h6" stroke="#0078d4" stroke-width="1.5" fill="none"/>
+              <line x1="8" y1="13" x2="16" y2="13" stroke="#0078d4" stroke-width="1.2"/>
+              <line x1="8" y1="16" x2="14" y2="16" stroke="#0078d4" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="card-title">Practical 2A — Binomial &amp; Normal Distributions</div>
+          <div class="card-hint">Click to open</div>
+        </div>
+        <div class="card" onclick="openNotepad('2C')">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4h10l6 6v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="#0078d4" stroke-width="1.5" fill="#e8f4ff"/>
+              <path d="M14 4v6h6" stroke="#0078d4" stroke-width="1.5" fill="none"/>
+              <line x1="8" y1="13" x2="16" y2="13" stroke="#0078d4" stroke-width="1.2"/>
+              <line x1="8" y1="16" x2="14" y2="16" stroke="#0078d4" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="card-title">Practical 2C — Central Limit Theorem (CLT)</div>
+          <div class="card-hint">Click to open</div>
+        </div>
+        <div class="card" onclick="openNotepad('3A')">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4h10l6 6v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="#0078d4" stroke-width="1.5" fill="#e8f4ff"/>
+              <path d="M14 4v6h6" stroke="#0078d4" stroke-width="1.5" fill="none"/>
+              <line x1="8" y1="13" x2="16" y2="13" stroke="#0078d4" stroke-width="1.2"/>
+              <line x1="8" y1="16" x2="14" y2="16" stroke="#0078d4" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="card-title">Practical 3A — Large Sample Z-Test for Single Mean</div>
+          <div class="card-hint">Click to open</div>
+        </div>
+        <div class="card" onclick="openNotepad('3D')">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4h10l6 6v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="#0078d4" stroke-width="1.5" fill="#e8f4ff"/>
+              <path d="M14 4v6h6" stroke="#0078d4" stroke-width="1.5" fill="none"/>
+              <line x1="8" y1="13" x2="16" y2="13" stroke="#0078d4" stroke-width="1.2"/>
+              <line x1="8" y1="16" x2="14" y2="16" stroke="#0078d4" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="card-title">Practical 3D — F-Test for Comparison of Variances</div>
+          <div class="card-hint">Click to open</div>
+        </div>
+        <div class="card" onclick="openNotepad('4B')">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4h10l6 6v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="#0078d4" stroke-width="1.5" fill="#e8f4ff"/>
+              <path d="M14 4v6h6" stroke="#0078d4" stroke-width="1.5" fill="none"/>
+              <line x1="8" y1="13" x2="16" y2="13" stroke="#0078d4" stroke-width="1.2"/>
+              <line x1="8" y1="16" x2="14" y2="16" stroke="#0078d4" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="card-title">Practical 4B — n-Step Transition Probability (Markov Chain)</div>
+          <div class="card-hint">Click to open</div>
+        </div>
+        <div class="card" onclick="openNotepad('4D')">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4h10l6 6v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="#0078d4" stroke-width="1.5" fill="#e8f4ff"/>
+              <path d="M14 4v6h6" stroke="#0078d4" stroke-width="1.5" fill="none"/>
+              <line x1="8" y1="13" x2="16" y2="13" stroke="#0078d4" stroke-width="1.2"/>
+              <line x1="8" y1="16" x2="14" y2="16" stroke="#0078d4" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="card-title">Practical 4D — Second-Order Markov Process Simulation</div>
+          <div class="card-hint">Click to open</div>
+        </div>
+        <div class="card" onclick="openNotepad('5A')">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4h10l6 6v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="#0078d4" stroke-width="1.5" fill="#e8f4ff"/>
+              <path d="M14 4v6h6" stroke="#0078d4" stroke-width="1.5" fill="none"/>
+              <line x1="8" y1="13" x2="16" y2="13" stroke="#0078d4" stroke-width="1.2"/>
+              <line x1="8" y1="16" x2="14" y2="16" stroke="#0078d4" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="card-title">Practical 5A — Karl Pearson's Coefficient of Correlation</div>
+          <div class="card-hint">Click to open</div>
+        </div>
+        <div class="card" onclick="openNotepad('5D')">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4h10l6 6v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="#0078d4" stroke-width="1.5" fill="#e8f4ff"/>
+              <path d="M14 4v6h6" stroke="#0078d4" stroke-width="1.5" fill="none"/>
+              <line x1="8" y1="13" x2="16" y2="13" stroke="#0078d4" stroke-width="1.2"/>
+              <line x1="8" y1="16" x2="14" y2="16" stroke="#0078d4" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="card-title">Practical 5D — Multiple Linear Regression</div>
+          <div class="card-hint">Click to open</div>
+        </div>
+        <div class="card" onclick="openNotepad('6A')">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4h10l6 6v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="#0078d4" stroke-width="1.5" fill="#e8f4ff"/>
+              <path d="M14 4v6h6" stroke="#0078d4" stroke-width="1.5" fill="none"/>
+              <line x1="8" y1="13" x2="16" y2="13" stroke="#0078d4" stroke-width="1.2"/>
+              <line x1="8" y1="16" x2="14" y2="16" stroke="#0078d4" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="card-title">Practical 6A — Lagrange's Interpolation Method</div>
+          <div class="card-hint">Click to open</div>
+        </div>
+        <div class="card" onclick="openNotepad('6B')">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4h10l6 6v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="#0078d4" stroke-width="1.5" fill="#e8f4ff"/>
+              <path d="M14 4v6h6" stroke="#0078d4" stroke-width="1.5" fill="none"/>
+              <line x1="8" y1="13" x2="16" y2="13" stroke="#0078d4" stroke-width="1.2"/>
+              <line x1="8" y1="16" x2="14" y2="16" stroke="#0078d4" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="card-title">Practical 6B — Newton's Divided-Difference Interpolation</div>
+          <div class="card-hint">Click to open</div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== NOTEPAD OVERLAY ===== -->
+<div id="notepad-overlay">
+  <div class="np-titlebar">
+    <svg class="np-titlebar-icon" viewBox="0 0 24 24" fill="none">
+      <defs>
+        <linearGradient id="npGradTitle" x1="4" y1="3.5" x2="20" y2="18" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#80d9f7"/>
+          <stop offset="100%" stop-color="#3eb2df"/>
+        </linearGradient>
+      </defs>
+      <rect x="4" y="19" width="16" height="3" rx="1.2" fill="#9c4b00"/>
+      <rect x="4" y="3.5" width="16" height="14.5" rx="1.5" fill="url(#npGradTitle)"/>
+      <rect x="6" y="1.8" width="2" height="3.2" rx="1" fill="#005575"/>
+      <rect x="9.3" y="1.8" width="2" height="3.2" rx="1" fill="#005575"/>
+      <rect x="12.7" y="1.8" width="2" height="3.2" rx="1" fill="#005575"/>
+      <rect x="16" y="1.8" width="2" height="3.2" rx="1" fill="#005575"/>
+      <rect x="7" y="7.4" width="10" height="1.8" rx="0.9" fill="#005575"/>
+      <rect x="7" y="10.6" width="10" height="1.8" rx="0.9" fill="#005575"/>
+      <rect x="7" y="13.8" width="10" height="1.8" rx="0.9" fill="#005575"/>
+    </svg>
+    <div class="np-tabs" id="np-tabs-bar">
+      <!-- tabs rendered by JS -->
+      <div class="np-tab-new" title="New tab (Ctrl+N)" onclick="newTab()">+</div>
+    </div>
+    <div class="np-winctrls">
+      <!-- Minimize -->
+      <div class="np-winbtn" title="Minimize" onclick="closeNotepad()">
+        <svg width="10" height="1" viewBox="0 0 10 1" fill="none">
+          <line x1="0" y1="0.5" x2="10" y2="0.5" stroke="#1a1a1a" stroke-width="1.2"/>
+        </svg>
+      </div>
+      <!-- Maximize / Restore -->
+      <div class="np-winbtn" title="Restore Down">
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+          <rect x="0.8" y="2.8" width="7.4" height="7.4" rx="1" stroke="#1a1a1a" stroke-width="1.15"/>
+          <path d="M2.8 2.8V1.8a1 1 0 011-1h5.4a1 1 0 011 1v5.4a1 1 0 01-1 1H8.2" stroke="#1a1a1a" stroke-width="1.15"/>
+        </svg>
+      </div>
+      <!-- Close -->
+      <div class="np-winbtn close" title="Close" onclick="closeNotepad()">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+          <line x1="0.5" y1="0.5" x2="9.5" y2="9.5" stroke="#1a1a1a" stroke-width="1.2"/>
+          <line x1="9.5" y1="0.5" x2="0.5" y2="9.5" stroke="#1a1a1a" stroke-width="1.2"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="np-menubar">
+    <div class="np-menus">
+
+      <!-- FILE MENU -->
+      <div class="np-menu-item" id="menu-file" onclick="toggleMenu('file')">File
+        <div class="np-dropdown" id="dd-file">
+          <div class="np-dd-item" onclick="menuAction('new-tab')">New tab<span class="shortcut">Ctrl+N</span></div>
+          <div class="np-dd-item" onclick="menuAction('new-window')">New window<span class="shortcut">Ctrl+Shift+N</span></div>
+          <div class="np-dd-item" onclick="menuAction('new-markdown')">New Markdown tab</div>
+          <div class="np-dd-sep"></div>
+          <div class="np-dd-item" onclick="menuAction('open')">Open<span class="shortcut">Ctrl+O</span></div>
+          <div class="np-dd-item" onclick="menuAction('recent')">Recent<span class="dd-arrow">›</span></div>
+          <div class="np-dd-sep"></div>
+          <div class="np-dd-item" onclick="menuAction('save')">Save<span class="shortcut">Ctrl+S</span></div>
+          <div class="np-dd-item" onclick="exportToNotepad()">Save as<span class="shortcut">Ctrl+Shift+S</span></div>
+          <div class="np-dd-item" onclick="menuAction('save-all')">Save all<span class="shortcut">Ctrl+Alt+S</span></div>
+          <div class="np-dd-sep"></div>
+          <div class="np-dd-item" onclick="menuAction('page-setup')">Page setup</div>
+          <div class="np-dd-item" onclick="menuAction('print')">Print<span class="shortcut">Ctrl+P</span></div>
+          <div class="np-dd-sep"></div>
+          <div class="np-dd-item" onclick="closeNotepad()">Close tab<span class="shortcut">Ctrl+W</span></div>
+          <div class="np-dd-item" onclick="closeNotepad()">Close window<span class="shortcut">Ctrl+Shift+W</span></div>
+          <div class="np-dd-item" onclick="closeNotepad()">Exit</div>
+        </div>
+      </div>
+
+      <!-- EDIT MENU -->
+      <div class="np-menu-item" id="menu-edit" onclick="toggleMenu('edit')">Edit
+        <div class="np-dropdown" id="dd-edit">
+          <div class="np-dd-item disabled" id="dd-undo">Undo<span class="shortcut">Ctrl+Z</span></div>
+          <div class="np-dd-sep"></div>
+          <div class="np-dd-item disabled" id="dd-cut">Cut<span class="shortcut">Ctrl+X</span></div>
+          <div class="np-dd-item disabled" id="dd-copy-sel">Copy<span class="shortcut">Ctrl+C</span></div>
+          <div class="np-dd-item" onclick="menuPaste()">Paste<span class="shortcut">Ctrl+V</span></div>
+          <div class="np-dd-item disabled" id="dd-delete">Delete<span class="shortcut">Del</span></div>
+          <div class="np-dd-sep"></div>
+          <div class="np-dd-item disabled">Clear formatting</div>
+          <div class="np-dd-sep"></div>
+          <div class="np-dd-item" onclick="menuAction('bing')">Define with Bing<span class="shortcut">Ctrl+E</span></div>
+          <div class="np-dd-sep"></div>
+          <div class="np-dd-item" onclick="menuFind()">Find<span class="shortcut">Ctrl+F</span></div>
+          <div class="np-dd-item" onclick="menuAction('find-next')">Find next<span class="shortcut">F3</span></div>
+          <div class="np-dd-item" onclick="menuAction('find-prev')">Find previous<span class="shortcut">Shift+F3</span></div>
+          <div class="np-dd-item" onclick="menuAction('replace')">Replace<span class="shortcut">Ctrl+H</span></div>
+          <div class="np-dd-item" onclick="menuAction('goto')">Go to<span class="shortcut">Ctrl+G</span></div>
+          <div class="np-dd-sep"></div>
+          <div class="np-dd-item" onclick="menuSelectAll()">Select all<span class="shortcut">Ctrl+A</span></div>
+          <div class="np-dd-item" onclick="menuInsertDateTime()">Time/Date<span class="shortcut">F5</span></div>
+          <div class="np-dd-sep"></div>
+          <div class="np-dd-item" onclick="menuAction('font')">Font</div>
+        </div>
+      </div>
+
+      <!-- VIEW MENU -->
+      <div class="np-menu-item" id="menu-view" onclick="toggleMenu('view')">View
+        <div class="np-dropdown" id="dd-view" style="min-width:220px;">
+          <div class="np-dd-item" onclick="menuAction('zoom')">Zoom<span class="dd-arrow">›</span></div>
+          <div class="np-dd-sep"></div>
+          <div class="np-dd-item" onclick="toggleStatusBar()"><span class="dd-check" id="check-statusbar">✓</span>Status bar</div>
+          <div class="np-dd-item" onclick="toggleWordWrap()"><span class="dd-check" id="check-wordwrap">✓</span>Word wrap</div>
+          <div class="np-dd-sep"></div>
+          <div class="np-dd-item disabled"><span class="dd-check"></span>Markdown<span class="dd-arrow">›</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="np-tb-actions">
+      <!-- Hidden copy button — looks like a normal toolbar icon -->
+      <div class="np-copy-btn" id="copy-btn" title="Copy code" onclick="copyCode()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+          <rect x="9" y="9" width="13" height="13" rx="2" stroke="#555" stroke-width="1.6"/>
+          <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="#555" stroke-width="1.6"/>
+        </svg>
+      </div>
+      <!-- Export to Notepad (.txt download) -->
+      <div class="np-export-btn" id="export-btn" title="Export to Notepad" onclick="exportToNotepad()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="3" width="14" height="18" rx="2" fill="#e8f4ff" stroke="#0078d4" stroke-width="1.5"/>
+          <path d="M7 8h6M7 11h6M7 14h4" stroke="#0078d4" stroke-width="1.3" stroke-linecap="round"/>
+          <circle cx="18" cy="18" r="5" fill="#0078d4"/>
+          <path d="M18 15.5v5M15.5 18h5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="np-tb-btn np-tb-split" title="Rewrite">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M18.5 3.5a1.8 1.8 0 012.5 2.5L11 16l-3.5 1 1-3.5 10-10z" stroke="#1a1a1a" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M16.5 5.5l2 2" stroke="#1a1a1a" stroke-width="1.4"/>
+          <path d="M6.5 2.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2z" fill="#1a1a1a"/>
+          <path d="M10.5 7.5l.5 1.4 1.4.5-1.4.5-.5 1.4-.5-1.4-1.4-.5 1.4-.5.5-1.4z" fill="#1a1a1a"/>
+        </svg>
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+          <path d="M2 3.5L5 6.5L8 3.5" stroke="#555" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="np-tb-btn" title="Send feedback" style="position:relative;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M19 5.5v13l-9-3.5H5.5A1.5 1.5 0 014 13.5v-3A1.5 1.5 0 015.5 9H10l9-3.5z" stroke="#1a1a1a" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M7.5 15v2.2a1.8 1.8 0 003.5.5l.3-1.2" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="20.5" cy="3.5" r="2.6" fill="#c42b1c"/>
+        </svg>
+      </div>
+      <div class="np-tb-btn" title="Account">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10.5" fill="#efefef"/>
+          <circle cx="12" cy="9.2" r="3" fill="#777"/>
+          <path d="M7 18.2c0-2.6 2.2-4.2 5-4.2s5 1.6 5 4.2" fill="#777"/>
+        </svg>
+      </div>
+      <div class="np-tb-btn" title="Settings">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="#1a1a1a" stroke-width="1.5"/>
+          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="#1a1a1a" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="np-content">
+    <textarea class="np-textarea" id="np-textarea" spellcheck="false"></textarea>
+  </div>
+
+  <div class="np-statusbar">
+    <span id="np-status-pos">Ln 1, Col 1</span>
+    <span id="np-status-chars">0 characters</span>
+    <span>Python</span>
+    <div class="np-status-right">
+      <span>100%</span>
+      <span>Windows (CRLF)</span>
+      <span>UTF-8</span>
+    </div>
+  </div>
+</div>
+
+<script>
+var DATA = {
+  '1A': { title: 'Practical 1A — Matrix Addition, Multiplication & Scalar Operations', code: 'def add_matrices(A, B):\n    """Element-wise addition of two matrices of the same shape."""\n    return [[A[i][j] + B[i][j] for j in range(len(A[0]))] for i in range(len(A))]\n\ndef multiply_matrices(A, B):\n    """Standard row-by-column matrix multiplication A (m x n) . B (n x p)."""\n    rows_A, cols_A = len(A), len(A[0])\n    rows_B, cols_B = len(B), len(B[0])\n    assert cols_A == rows_B, "Number of columns of A must equal number of rows of B"\n    result = [[0] * cols_B for _ in range(rows_A)]\n    for i in range(rows_A):\n        for j in range(cols_B):\n            result[i][j] = sum(A[i][k] * B[k][j] for k in range(cols_A))\n    return result\n\ndef scalar_multiply(matrix, scalar):\n    """Multiply every entry of the matrix by a scalar."""\n    return [[scalar * x for x in row] for row in matrix]\n\nA = [[2, 3], [4, 5]]\nB = [[1, 0], [2, 1]]\nscalar = 3\n\nprint("Matrix A            :", A)\nprint("Matrix B            :", B)\nprint("A + B                :", add_matrices(A, B))\nprint("A x B (A*B)          :", multiply_matrices(A, B))\nprint("B x A (B*A)          :", multiply_matrices(B, A), " <-- shows AB != BA")\nprint(f"{scalar} x A               :", scalar_multiply(A, scalar))\n\nimport numpy as np\nAn = np.array(A)\nBn = np.array(B)\nprint("\\n--- NumPy verification ---")\nprint("A + B (numpy):\\n", An + Bn)\nprint("A @ B (numpy):\\n", An @ Bn)\nprint("A * B (numpy, element-wise!):\\n", An * Bn)\nprint(f"{scalar} * A (numpy):\\n", scalar * An)' },
+  '1B': { title: 'Practical 1B — Eigenvalues, Eigenvectors & Diagonalization', code: 'import numpy as np\n\nA = np.array([\n    [4, 1, 0],\n    [2, 3, 0],\n    [0, 0, 5]\n], dtype=float)\n\neigenvalues, eigenvectors = np.linalg.eig(A)\nprint("Matrix A:\\n", A)\nprint("\\nEigenvalues (lambda):", eigenvalues)\nprint("\\nEigenvectors (as columns of P):\\n", eigenvectors)\n\nP = eigenvectors\nD = np.diag(eigenvalues)\n\nP_inv = np.linalg.inv(P)\nA_reconstructed = P @ D @ P_inv\n\nprint("\\nDiagonal matrix D:\\n", D)\nprint("\\nReconstructed A = P D P^-1:\\n", np.round(A_reconstructed, 6))\nprint("\\nMatches original A? ", np.allclose(A, A_reconstructed))\n\nA_power5_direct = np.linalg.matrix_power(A, 5)\nA_power5_via_D  = P @ np.diag(eigenvalues**5) @ P_inv\n\nprint("\\nA^5 computed directly:\\n", np.round(A_power5_direct, 3))\nprint("\\nA^5 computed via diagonalization (P D^5 P^-1):\\n", np.round(A_power5_via_D.real, 3))' },
+  '2A': { title: 'Practical 2A — Binomial & Normal Distributions', code: 'import numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.stats import binom, norm\n\nn, p = 10, 0.4\nk_values = np.arange(0, n + 1)\npmf = binom.pmf(k_values, n, p)\n\nprint("Binomial distribution B(n=10, p=0.4)")\nfor k, prob in zip(k_values, pmf):\n    print(f"  P(X={k:2d}) = {prob:.4f}")\n\nprint(f"\\nTheoretical mean  (n*p)      = {n*p}")\nprint(f"Simulated  mean (10000 draws) = {np.mean(np.random.binomial(n, p, 10000)):.4f}")\nprint(f"Theoretical variance n*p*(1-p) = {n*p*(1-p)}")\nprint(f"Simulated  variance            = {np.var(np.random.binomial(n, p, 10000)):.4f}")\n\nmu, sigma = 0, 1\nx_values = np.linspace(-4, 4, 400)\npdf = norm.pdf(x_values, mu, sigma)\n\nprob_within_1sd = norm.cdf(1, mu, sigma) - norm.cdf(-1, mu, sigma)\nprint(f"\\nNormal distribution N(mu=0, sigma=1)")\nprint(f"P(-1 < X < 1) = {prob_within_1sd:.4f}  (theoretical ~ 0.6827, the \'68%% rule\')")\n\nfig, axes = plt.subplots(1, 2, figsize=(12, 4.5))\n\naxes[0].bar(k_values, pmf, color="steelblue", edgecolor="black")\naxes[0].set_title("Discrete: Binomial PMF  B(n=10, p=0.4)")\naxes[0].set_xlabel("k (number of successes)")\naxes[0].set_ylabel("P(X = k)")\n\naxes[1].plot(x_values, pdf, color="darkorange", linewidth=2)\naxes[1].fill_between(x_values, pdf, where=(x_values >= -1) & (x_values <= 1),\n                      color="darkorange", alpha=0.3)\naxes[1].set_title("Continuous: Normal PDF  N(0,1)")\naxes[1].set_xlabel("x")\naxes[1].set_ylabel("f(x)  (density)")\n\nplt.tight_layout()\nplt.show()' },
+  '2C': { title: 'Practical 2C — Central Limit Theorem (CLT)', code: 'import numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.stats import norm\n\npopulation = np.random.uniform(0, 1, 100000)\n\nsample_size = 30\nnum_samples = 1000\n\nsample_means = np.array([\n    np.mean(np.random.choice(population, sample_size))\n    for _ in range(num_samples)\n])\n\nprint()\nprint("=====")\nprint(len(sample_means))\nprint("=====")\nprint()\n\nmean_of_means = np.mean(sample_means)\nstd_of_means  = np.std(sample_means)\ntheoretical_se = np.std(population) / np.sqrt(sample_size)\n\nprint(f"Population mean                      : {np.mean(population):.4f}")\nprint(f"Population std dev                   : {np.std(population):.4f}")\nprint(f"Mean of the 1000 sample means         : {mean_of_means:.4f}  (should be close to population mean)")\nprint(f"Std dev of the 1000 sample means      : {std_of_means:.4f}")\nprint(f"Theoretical standard error (sigma/√n) : {theoretical_se:.4f}  (should match line above)")\n\nx = np.linspace(min(sample_means), max(sample_means), 500)\npdf = norm.pdf(x, mean_of_means, std_of_means)\n\nplt.figure(figsize=(9, 5))\nplt.hist(sample_means, bins=30, density=True, alpha=0.6, color="skyblue",\n         edgecolor="white", label="Sampling distribution of the mean (simulated)")\nplt.plot(x, pdf, "r", linewidth=2, label="Normal curve predicted by CLT")\nplt.title("Central Limit Theorem: Uniform population -> Normal sampling distribution")\nplt.xlabel("Sample mean")\nplt.ylabel("Density")\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()' },
+  '3A': { title: 'Practical 3A — Large Sample Z-Test for Single Mean', code: 'import numpy as np\nfrom scipy.stats import norm\n\ndef z_test_single_mean(sample, mu0, sigma=None, alpha=0.05, alternative="two-sided"):\n    """\n    Large-sample Z-test for H0: population mean = mu0.\n\n    sample      : array-like sample data\n    mu0         : hypothesized population mean\n    sigma       : population std dev if known; otherwise sample std dev is used\n    alpha       : significance level\n    alternative : \'two-sided\', \'greater\', or \'less\'\n    """\n    sample = np.asarray(sample, dtype=float)\n    n = len(sample)\n    x_bar = sample.mean()\n    if sigma is None:\n        sigma = sample.std(ddof=1)\n\n    z_stat = (x_bar - mu0) / (sigma / np.sqrt(n))\n\n    if alternative == "two-sided":\n        p_value = 2 * (1 - norm.cdf(abs(z_stat)))\n    elif alternative == "greater":\n        p_value = 1 - norm.cdf(z_stat)\n    elif alternative == "less":\n        p_value = norm.cdf(z_stat)\n    else:\n        raise ValueError("alternative must be \'two-sided\', \'greater\', or \'less\'")\n\n    reject = p_value <= alpha\n    return {\n        "n": n,\n        "Sample Mean": round(x_bar, 4),\n        "Hypothesized Mean": mu0,\n        "Z-statistic": round(z_stat, 4),\n        "p-value": round(p_value, 6),\n        "alpha": alpha,\n        "Conclusion": "Reject H0" if reject else "Fail to Reject H0",\n    }\n\nnp.random.seed(1)\ndata = np.random.normal(loc=50.6, scale=2.0, size=40)\nmu0 = 50\n\nresult = z_test_single_mean(data, mu0, alpha=0.05, alternative="two-sided")\nfor k, v in result.items():\n    print(f"{k:20s}: {v}")\n\nprint("\\nInterpretation: since the p-value is compared against alpha = 0.05,")\nprint("we", "REJECT" if result["Conclusion"] == "Reject H0" else "DO NOT REJECT",\n      "the claim that the true mean fill volume is 50 ml.")' },
+  '3D': { title: 'Practical 3D — F-Test for Comparison of Variances', code: 'import numpy as np\nfrom scipy.stats import f as f_dist\n\ndef f_test_variances(sample1, sample2, alpha=0.05):\n    """\n    F-test for H0: variance(sample1) == variance(sample2).\n    Puts the larger sample variance in the numerator so F >= 1.\n    """\n    s1 = np.asarray(sample1, dtype=float)\n    s2 = np.asarray(sample2, dtype=float)\n\n    var1, var2 = s1.var(ddof=1), s2.var(ddof=1)\n    n1, n2 = len(s1), len(s2)\n\n    if var1 >= var2:\n        F = var1 / var2\n        df1, df2 = n1 - 1, n2 - 1\n    else:\n        F = var2 / var1\n        df1, df2 = n2 - 1, n1 - 1\n\n    p_value = 2 * min(f_dist.cdf(F, df1, df2), 1 - f_dist.cdf(F, df1, df2))\n    critical_value = f_dist.ppf(1 - alpha / 2, df1, df2)\n    reject = F > critical_value\n\n    return {\n        "Variance 1": round(var1, 4),\n        "Variance 2": round(var2, 4),\n        "F-statistic": round(F, 4),\n        "df1, df2": (df1, df2),\n        "Critical F (alpha/2)": round(critical_value, 4),\n        "p-value": round(p_value, 6),\n        "Conclusion": "Reject H0 (variances differ)" if reject else "Fail to Reject H0 (variances equal)",\n    }\n\nmachine_A = [10.2, 9.8, 10.5, 10.1, 9.9, 10.3, 10.0]\nmachine_B = [9.5, 10.6, 9.2, 10.8, 9.4, 10.9, 9.1]\n\nresult = f_test_variances(machine_A, machine_B, alpha=0.05)\nfor k, v in result.items():\n    print(f"{k:22s}: {v}")\n\nprint("\\nInterpretation: F compares the spread (variance) of the two machines\' output.")\nprint("A large F far from 1, exceeding the critical value, means the machines differ")\nprint("significantly in consistency/precision, not just in average output.")' },
+  '4B': { title: 'Practical 4B — n-Step Transition Probability (Markov Chain)', code: 'import numpy as np\nimport matplotlib.pyplot as plt\n\ndef validate_transition_matrix(P):\n    """A valid transition matrix: square, non-negative entries, rows sum to 1."""\n    P = np.array(P, dtype=float)\n    if P.ndim != 2 or P.shape[0] != P.shape[1]:\n        raise ValueError("Transition matrix must be square (n x n).")\n    if not np.allclose(P.sum(axis=1), 1):\n        raise ValueError("Each row of the transition matrix must sum to 1.")\n    if np.any(P < 0):\n        raise ValueError("Transition matrix cannot have negative entries.")\n    if np.any(P > 1):\n        raise ValueError("Transition matrix cannot have entries greater than 1.")\n    return P\n\ndef n_step_transition_probability(P, n):\n    """n-step transition matrix = P raised to the power n."""\n    P = validate_transition_matrix(P)\n    return np.linalg.matrix_power(P, n)\n\nP = np.array([\n    [0.7, 0.2, 0.1],\n    [0.1, 0.6, 0.3],\n    [0.4, 0.2, 0.4],\n])\nstate_names = ["Sunny", "Cloudy", "Rainy"]\n\nfor n in [1, 2, 5, 10, 20]:\n    Pn = n_step_transition_probability(P, n)\n    print(f"\\n{n}-step transition matrix P^{n}:\\n{np.round(Pn, 4)}")\n\nprint("\\nExample reading: P^5[0][2] = probability of Rainy in 5 steps, given it is Sunny today.")\n\nmax_n = 20\nevolution = np.array([n_step_transition_probability(P, n)[0] for n in range(1, max_n + 1)])\n\nplt.figure(figsize=(8, 5))\nfor i, name in enumerate(state_names):\n    plt.plot(range(1, max_n + 1), evolution[:, i], marker="o", label=f"P(Sunny -> {name})")\nplt.xlabel("Number of steps (n)")\nplt.ylabel("Transition probability")\nplt.title("n-step Transition Probability starting from \'Sunny\'")\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()\n\nprint("\\nNote: as n grows large, every row of P^n converges to the same values —")\nprint("this limiting row is the Markov chain\'s steady-state (stationary) distribution.")' },
+  '4D': { title: 'Practical 4D — Second-Order Markov Process Simulation', code: 'from collections import defaultdict, Counter\nimport numpy as np\n\nweather = [\n    "Sunny", "Cloudy", "Rainy", "Rainy",\n    "Cloudy", "Sunny", "Cloudy", "Rainy",\n    "Sunny", "Sunny", "Cloudy", "Rainy",\n    "Rainy", "Cloudy", "Sunny", "Cloudy"\n]\n\ntransition_counts = defaultdict(Counter)\n\nfor i in range(2, len(weather)):\n    previous_two = (weather[i - 2], weather[i - 1])\n    next_state = weather[i]\n    transition_counts[previous_two][next_state] += 1\n\ntransition_probabilities = {}\n\nfor pair, counts in transition_counts.items():\n    total = sum(counts.values())\n\n    transition_probabilities[pair] = {\n        state: count / total\n        for state, count in counts.items()\n    }\n\nprint("Learned transition probabilities:")\n\nfor pair, probs in transition_probabilities.items():\n    print(f"\\n{pair} ->")\n\n    for state, probability in probs.items():\n        print(f"  {state}: {probability:.2%}")\n\ncurrent_pair = (weather[-2], weather[-1])\n\nif current_pair in transition_probabilities:\n    probs = transition_probabilities[current_pair]\n\n    states = list(probs.keys())\n    probabilities = list(probs.values())\n\n    rng = np.random.default_rng(42)\n    prediction = rng.choice(states, p=probabilities)\n\n    print("\\nPrevious two states:", current_pair)\n    print("Predicted next state:", prediction)\nelse:\n    print("Insufficient data for this pair.")' },
+  '5A': { title: 'Practical 5A — Karl Pearson\'s Coefficient of Correlation', code: 'import numpy as np\nimport matplotlib.pyplot as plt\ndef pearson_correlation(x, y):\n    """Compute Karl Pearson\'s correlation coefficient from first principles."""\n    x = np.asarray(x, dtype=float)\n    y = np.asarray(y, dtype=float)\n    x_mean, y_mean = x.mean(), y.mean()\n\n    numerator = np.sum((x - x_mean) * (y - y_mean))\n    denominator = np.sqrt(np.sum((x - x_mean) ** 2)) * np.sqrt(np.sum((y - y_mean) ** 2))\n    return numerator / denominator\n\nhours_studied = [2, 4, 6, 8, 10, 3, 7, 5, 9, 1]\nmarks_obtained = [50, 60, 68, 82, 90, 55, 75, 65, 88, 40]\n\nr_manual = pearson_correlation(hours_studied, marks_obtained)\nr_numpy = np.corrcoef(hours_studied, marks_obtained)[0, 1]\n\nprint(f"Pearson correlation coefficient (from scratch) : {r_manual:.4f}")\nprint(f"Pearson correlation coefficient (numpy check)  : {r_numpy:.4f}")\n\nif r_manual > 0.7:\n    strength = "strong positive"\nelif r_manual > 0.3:\n    strength = "moderate positive"\nelif r_manual > -0.3:\n    strength = "weak/no linear"\nelif r_manual > -0.7:\n    strength = "moderate negative"\nelse:\n    strength = "strong negative"\nprint(f"Interpretation: a {strength} linear relationship between hours studied and marks.")\n\nplt.figure(figsize=(7, 5))\nplt.scatter(hours_studied, marks_obtained, color="teal", s=60, label="Data points")\nm, c = np.polyfit(hours_studied, marks_obtained, 1)\nxs = np.linspace(min(hours_studied), max(hours_studied), 100)\nplt.plot(xs, m * xs + c, "r--", label=f"Best-fit line (slope={m:.2f})")\nplt.title(f"Hours Studied vs Marks Obtained  (r = {r_manual:.3f})")\nplt.xlabel("Hours Studied")\nplt.ylabel("Marks Obtained")\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()' },
+  '5D': { title: 'Practical 5D — Multiple Linear Regression', code: 'import pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.metrics import mean_squared_error, r2_score\n\nnp.random.seed(42)\nn = 120\n\nsize = np.random.randint(500, 4000, n)\nbedrooms = np.random.randint(1, 6, n)\nbathrooms = np.random.randint(1, 4, n)\ndistance = np.random.randint(1, 30, n)\n\nprice = (\n    3000 * bedrooms\n    + 5000 * bathrooms\n    + 200 * size\n    - 1500 * distance\n    + np.random.randint(-10000, 10000, n)\n)\n\nhouse_data = pd.DataFrame({\n    "Size_sqft": size,\n    "Bedrooms": bedrooms,\n    "Bathrooms": bathrooms,\n    "Distance_km": distance,\n    "Price": price,\n})\nprint("Sample of the dataset:")\nprint(house_data.head())\n\nX = house_data[["Size_sqft", "Bedrooms", "Bathrooms", "Distance_km"]]\ny = house_data["Price"]\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\nmodel = LinearRegression()\nmodel.fit(X_train, y_train)\n\ny_pred = model.predict(X_test)\nmse = mean_squared_error(y_test, y_pred)\nr2 = r2_score(y_test, y_pred)\n\nprint(f"\\nCoefficients (beta_1..beta_4): {np.round(model.coef_, 2)}")\nprint(f"Intercept (beta_0)            : {model.intercept_:.2f}")\nprint(f"Mean Squared Error (MSE)      : {mse:,.2f}")\nprint(f"R^2 Score                     : {r2:.4f}")\n\nprint("\\nFitted regression equation:")\nprint(f"Price = {model.intercept_:.2f} "\n      f"+ ({model.coef_[0]:.2f} * Size_sqft) "\n      f"+ ({model.coef_[1]:.2f} * Bedrooms) "\n      f"+ ({model.coef_[2]:.2f} * Bathrooms) "\n      f"+ ({model.coef_[3]:.2f} * Distance_km)")\n\nfig, axes = plt.subplots(1, 2, figsize=(12, 5))\n\naxes[0].scatter(y_test, y_pred, color="steelblue", alpha=0.7)\naxes[0].plot([y.min(), y.max()], [y.min(), y.max()], "r--", lw=2)\naxes[0].set_xlabel("Actual Price")\naxes[0].set_ylabel("Predicted Price")\naxes[0].set_title("Actual vs Predicted Price")\n\nresiduals = y_test - y_pred\naxes[1].scatter(y_pred, residuals, color="seagreen", alpha=0.7)\naxes[1].axhline(0, color="red", linestyle="--")\naxes[1].set_xlabel("Predicted Price")\naxes[1].set_ylabel("Residual (Actual - Predicted)")\naxes[1].set_title("Residual Plot")\n\nplt.tight_layout()\nplt.show()' },
+  '6A': { title: 'Practical 6A — Lagrange\'s Interpolation Method', code: 'import numpy as np\nimport matplotlib.pyplot as plt\n\ndef lagrange_interpolation(x_points, y_points, x_val):\n    """\n    Estimate y at x_val using Lagrange interpolation through the given points.\n    x_points, y_points : known data points\n    x_val               : the point at which to interpolate\n    """\n    n = len(x_points)\n    result = 0.0\n    for i in range(n):\n        term = y_points[i]\n        for j in range(n):\n            if i != j:\n                term *= (x_val - x_points[j]) / (x_points[i] - x_points[j])\n        result += term\n    return result\n\nx = np.array([1, 2, 3, 4, 5])\ny = np.array([2, 4, 1, 3, 7])\nx_new = 2.5\n\ny_new = lagrange_interpolation(x, y, x_new)\nprint(f"Interpolated value at x = {x_new} is y = {y_new:.4f}")\n\nx_range = np.linspace(min(x), max(x), 200)\ny_range = [lagrange_interpolation(x, y, xi) for xi in x_range]\n\nplt.figure(figsize=(8, 5))\nplt.scatter(x, y, color="red", zorder=5, label="Known data points")\nplt.plot(x_range, y_range, color="blue", label="Lagrange interpolation curve")\nplt.scatter([x_new], [y_new], color="green", zorder=5, marker="x", s=100,\n            label=f"Interpolated point (x={x_new})")\nplt.title("Lagrange Interpolation")\nplt.xlabel("x")\nplt.ylabel("y")\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()' },
+  '6B': { title: 'Practical 6B — Newton\'s Divided-Difference Interpolation', code: 'import numpy as np\nimport matplotlib.pyplot as plt\n\ndef divided_diff(x, y):\n    """Build the divided-difference table. Returns the full n x n table."""\n    n = len(y)\n    table = [[0.0] * n for _ in range(n)]\n    for i in range(n):\n        table[i][0] = y[i]\n    for j in range(1, n):\n        for i in range(n - j):\n            table[i][j] = (table[i + 1][j - 1] - table[i][j - 1]) / (x[i + j] - x[i])\n    return table\n\nprint(table)\n\ndef newton_interpolation(x, y, value):\n    """Estimate y at \'value\' using Newton\'s divided-difference formula."""\n    n = len(x)\n    table = divided_diff(x, y)\n    result = table[0][0]\n    product_term = 1.0\n    for i in range(1, n):\n        product_term *= (value - x[i - 1])\n        result += table[0][i] * product_term\n    return result\n\nx_points = [1, 2, 3, 4]\ny_points = [1, 4, 9, 16]\n\ntable = divided_diff(x_points, y_points)\nprint("Divided-difference table (row i, column j = f[x_i,...,x_{i+j}]):")\nfor row in table:\n    print(["%.4f" % v for v in row])\n\nvalue_to_interpolate = 2.5\ninterpolated_value = newton_interpolation(x_points, y_points, value_to_interpolate)\nprint(f"\\nInterpolated value at x = {value_to_interpolate} is {interpolated_value:.4f}")\nprint("(Exact x^2 value would be 6.25 - matches, since the data is exactly quadratic.)")\n\nx_range = np.linspace(min(x_points), max(x_points), 200)\ny_range = [newton_interpolation(x_points, y_points, xi) for xi in x_range]\n\nplt.figure(figsize=(8, 5))\nplt.scatter(x_points, y_points, color="red", zorder=5, label="Known data points")\nplt.plot(x_range, y_range, color="purple", label="Newton interpolation curve")\nplt.scatter([value_to_interpolate], [interpolated_value], color="green", marker="x",\n            s=100, zorder=5, label=f"Interpolated point (x={value_to_interpolate})")\nplt.title("Newton\'s Divided-Difference Interpolation")\nplt.xlabel("x")\nplt.ylabel("y")\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()' }
+};
+
+function openNotepad(key) {
+  var d = DATA[key];
+  if (!d) return;
+
+  // Check if this practical is already open in a tab
+  for (var i = 0; i < tabs.length; i++) {
+    if (tabs[i].key === key) {
+      switchTab(tabs[i].id);
+      document.getElementById('notepad-overlay').classList.add('open');
+      document.title = tabs[i].title + ' — Notepad';
+      return;
+    }
+  }
+
+  // Open in current active tab if it's empty/untitled with no changes, else open new tab
+  var curTab = tabs.find(function(t) { return t.id === activeTabId; });
+  if (curTab && curTab.content === '' && curTab.title === 'Untitled') {
+    curTab.title = d.title;
+    curTab.content = d.code;
+    curTab.key = key;
+    curTab.modified = false;
+    renderTabs();
+    loadActiveTab();
+  } else {
+    createTab(d.title, d.code, key);
+  }
+
+  document.getElementById('notepad-overlay').classList.add('open');
+  document.title = d.title + ' — Notepad';
+}
+
+function closeNotepad() {
+  document.getElementById('notepad-overlay').classList.remove('open');
+  document.title = 'AM Lab — Applied Mathematics Practicals';
+}
+
+// =============================================
+// MULTI-TAB ENGINE
+// =============================================
+var tabs = [];
+var activeTabId = null;
+var tabCounter = 0;
+
+function createTab(title, content, key) {
+  tabCounter++;
+  var id = 'tab-' + tabCounter;
+  tabs.push({ id: id, title: title || 'Untitled', content: content || '', key: key || null, modified: false, scrollTop: 0, selStart: 0 });
+  activeTabId = id;
+  renderTabs();
+  loadActiveTab();
+}
+
+function switchTab(id) {
+  // Save current tab state
+  var ta = document.getElementById('np-textarea');
+  var cur = tabs.find(function(t) { return t.id === activeTabId; });
+  if (cur) {
+    cur.content = ta.value;
+    cur.scrollTop = ta.scrollTop;
+    cur.selStart = ta.selectionStart;
+  }
+  activeTabId = id;
+  renderTabs();
+  loadActiveTab();
+}
+
+function closeTab(id, event) {
+  if (event) { event.stopPropagation(); }
+  if (tabs.length === 1) {
+    // Last tab — just clear it
+    tabs[0].title = 'Untitled';
+    tabs[0].content = '';
+    tabs[0].key = null;
+    tabs[0].modified = false;
+    renderTabs();
+    loadActiveTab();
+    return;
+  }
+  var idx = tabs.findIndex(function(t) { return t.id === id; });
+  tabs.splice(idx, 1);
+  if (activeTabId === id) {
+    activeTabId = tabs[Math.min(idx, tabs.length - 1)].id;
+  }
+  renderTabs();
+  loadActiveTab();
+}
+
+function newTab() {
+  createTab('Untitled', '', null);
+}
+
+function loadActiveTab() {
+  var tab = tabs.find(function(t) { return t.id === activeTabId; });
+  if (!tab) return;
+  var ta = document.getElementById('np-textarea');
+  ta.value = tab.content;
+  ta.scrollTop = tab.scrollTop || 0;
+  updateCursorInfo(ta);
+  document.title = tab.title + ' — Notepad';
+}
+
+function renderTabs() {
+  var bar = document.getElementById('np-tabs-bar');
+  // Remove old tab elements (keep the + button)
+  var newBtn = bar.querySelector('.np-tab-new');
+  bar.innerHTML = '';
+
+  tabs.forEach(function(tab) {
+    var el = document.createElement('div');
+    el.className = 'np-tab' + (tab.id === activeTabId ? ' active' : '') + (tab.modified ? ' modified' : '');
+    el.setAttribute('data-id', tab.id);
+    el.onclick = function() { switchTab(tab.id); };
+
+    // Modified dot
+    var dot = document.createElement('span');
+    dot.className = 'np-tab-dot';
+    el.appendChild(dot);
+
+    // Label
+    var label = document.createElement('span');
+    label.className = 'np-tab-label';
+    var displayTitle = tab.title.length > 22 ? tab.title.substring(0, 22) + '…' : tab.title;
+    label.textContent = (tab.modified ? '● ' : '') + displayTitle;
+    el.appendChild(label);
+
+    // Close btn
+    var closeBtn = document.createElement('span');
+    closeBtn.className = 'np-tab-close-btn';
+    closeBtn.innerHTML = '&#x2715;';
+    closeBtn.title = 'Close tab';
+    closeBtn.onclick = function(e) { closeTab(tab.id, e); };
+    el.appendChild(closeBtn);
+
+    bar.appendChild(el);
+  });
+
+  bar.appendChild(newBtn || (function() {
+    var b = document.createElement('div');
+    b.className = 'np-tab-new';
+    b.title = 'New tab (Ctrl+N)';
+    b.textContent = '+';
+    b.onclick = newTab;
+    return b;
+  })());
+}
+
+// Mark tab modified on textarea input
+document.getElementById('np-textarea').addEventListener('input', function() {
+  var tab = tabs.find(function(t) { return t.id === activeTabId; });
+  if (tab) {
+    tab.content = this.value;
+    if (!tab.modified) {
+      tab.modified = true;
+      renderTabs();
+    }
+  }
+  updateCursorInfo(this);
+});
+
+// Init with one default tab
+createTab('Untitled', '', null);
+
+function copyCode() {
+  var ta = document.getElementById('np-textarea');
+  var btn = document.getElementById('copy-btn');
+  if (!ta.value) return;
+  navigator.clipboard.writeText(ta.value).then(function() {
+    btn.classList.add('copied');
+    setTimeout(function() { btn.classList.remove('copied'); }, 1800);
+  }).catch(function() {
+    ta.select();
+    document.execCommand('copy');
+    btn.classList.add('copied');
+    setTimeout(function() { btn.classList.remove('copied'); }, 1800);
+  });
+}
+
+function exportToNotepad() {
+  var ta = document.getElementById('np-textarea');
+  var btn = document.getElementById('export-btn');
+  if (!ta.value) return;
+  var curTab = tabs.find(function(t) { return t.id === activeTabId; });
+  var tabName = (curTab && curTab.title) ? curTab.title : 'Practical';
+  var filename = tabName.replace(/[^a-zA-Z0-9\-_ ]/g, '').trim().replace(/\s+/g, '_') + '.txt';
+  var blob = new Blob([ta.value], { type: 'text/plain;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  if (curTab) {
+    curTab.modified = false;
+    renderTabs();
+  }
+  btn.classList.add('saved');
+  setTimeout(function() { btn.classList.remove('saved'); }, 1800);
+}
+
+function updateCursorInfo(ta) {
+  var val = ta.value;
+  var pos = ta.selectionStart || 0;
+  var before = val.substring(0, pos);
+  var lines = before.split('\n');
+  var ln = lines.length;
+  var col = lines[lines.length - 1].length + 1;
+  document.getElementById('np-status-pos').textContent = 'Ln ' + ln + ', Col ' + col;
+  document.getElementById('np-status-chars').textContent = ta.value.length + ' characters';
+}
+
+document.getElementById('np-textarea').addEventListener('click', function() {
+  updateCursorInfo(this);
+});
+document.getElementById('np-textarea').addEventListener('keyup', function() {
+  updateCursorInfo(this);
+});
+
+// ===== DROPDOWN MENU LOGIC =====
+var openMenu = null;
+
+function toggleMenu(name) {
+  var ddIds = { file: 'dd-file', edit: 'dd-edit', view: 'dd-view' };
+  var miIds = { file: 'menu-file', edit: 'menu-edit', view: 'menu-view' };
+  if (openMenu === name) {
+    closeAllMenus();
+    return;
+  }
+  closeAllMenus();
+  openMenu = name;
+  document.getElementById(ddIds[name]).classList.add('show');
+  document.getElementById(miIds[name]).classList.add('active');
+}
+
+function closeAllMenus() {
+  ['file','edit','view'].forEach(function(n) {
+    var dd = document.getElementById('dd-' + n);
+    var mi = document.getElementById('menu-' + n);
+    if (dd) dd.classList.remove('show');
+    if (mi) mi.classList.remove('active');
+  });
+  openMenu = null;
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.np-menu-item')) closeAllMenus();
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    if (openMenu) { closeAllMenus(); return; }
+    var overlay = document.getElementById('notepad-overlay');
+    if (overlay.classList.contains('open')) closeNotepad();
+  }
+  if (e.ctrlKey && e.key === 'a') { menuSelectAll(); }
+  if (e.key === 'F5') { e.preventDefault(); menuInsertDateTime(); }
+  if (e.ctrlKey && e.key === 'f') { e.preventDefault(); menuFind(); }
+  if (e.ctrlKey && e.key === 'n') { e.preventDefault(); newTab(); }
+  if (e.ctrlKey && e.key === 'w') { e.preventDefault(); closeTab(activeTabId, null); }
+});
+
+// ===== MENU ACTIONS =====
+function menuAction(action) {
+  closeAllMenus();
+  var ta = document.getElementById('np-textarea');
+  if (action === 'save' || action === 'save-all') { exportToNotepad(); }
+  else if (action === 'print') { window.print(); }
+  else if (action === 'new-tab') { newTab(); }
+}
+
+function menuSelectAll() {
+  closeAllMenus();
+  var ta = document.getElementById('np-textarea');
+  ta.focus(); ta.select();
+}
+
+function menuPaste() {
+  closeAllMenus();
+  var ta = document.getElementById('np-textarea');
+  ta.focus();
+  navigator.clipboard.readText().then(function(text) {
+    var start = ta.selectionStart, end = ta.selectionEnd;
+    ta.value = ta.value.substring(0, start) + text + ta.value.substring(end);
+    ta.selectionStart = ta.selectionEnd = start + text.length;
+    updateCursorInfo(ta);
+  }).catch(function() { document.execCommand('paste'); });
+}
+
+function menuFind() {
+  closeAllMenus();
+  var term = prompt('Find:');
+  if (!term) return;
+  var ta = document.getElementById('np-textarea');
+  var idx = ta.value.indexOf(term, ta.selectionEnd);
+  if (idx === -1) idx = ta.value.indexOf(term);
+  if (idx !== -1) { ta.focus(); ta.setSelectionRange(idx, idx + term.length); updateCursorInfo(ta); }
+  else { alert('"' + term + '" not found.'); }
+}
+
+function menuInsertDateTime() {
+  closeAllMenus();
+  var ta = document.getElementById('np-textarea');
+  var now = new Date();
+  var str = now.toLocaleTimeString() + ' ' + now.toLocaleDateString();
+  var start = ta.selectionStart;
+  ta.value = ta.value.substring(0, start) + str + ta.value.substring(ta.selectionEnd);
+  ta.selectionStart = ta.selectionEnd = start + str.length;
+  ta.focus(); updateCursorInfo(ta);
+}
+
+var statusBarVisible = true;
+function toggleStatusBar() {
+  closeAllMenus();
+  statusBarVisible = !statusBarVisible;
+  document.querySelector('.np-statusbar').style.display = statusBarVisible ? '' : 'none';
+  document.getElementById('check-statusbar').textContent = statusBarVisible ? '✓' : '';
+}
+
+var wordWrapOn = false;
+function toggleWordWrap() {
+  closeAllMenus();
+  wordWrapOn = !wordWrapOn;
+  var ta = document.getElementById('np-textarea');
+  ta.style.whiteSpace = wordWrapOn ? 'pre-wrap' : 'pre';
+  ta.style.overflowX = wordWrapOn ? 'hidden' : 'auto';
+  document.getElementById('check-wordwrap').textContent = wordWrapOn ? '✓' : '';
+}
+</script>
+</body>
+</html>
