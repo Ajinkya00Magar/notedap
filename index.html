@@ -429,6 +429,28 @@
     margin-left: 8px;
   }
 
+  .np-dd-has-sub {
+    position: relative;
+  }
+
+  .np-submenu {
+    display: none;
+    position: absolute;
+    top: -4px;
+    left: 100%;
+    min-width: 200px;
+    background: #fff;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    box-shadow: 0 6px 24px rgba(0,0,0,.18);
+    padding: 4px 0;
+    z-index: 1000;
+  }
+
+  .np-dd-has-sub:hover > .np-submenu {
+    display: block;
+  }
+
   /* Right-side action buttons in menu bar */
   .np-tb-btn {
     width: 30px;
@@ -595,6 +617,221 @@
   .np-textarea::-webkit-scrollbar-thumb:hover {
     background: #a0a0a0;
   }
+
+  /* ===== THEME TOGGLE BUTTON (HOME PAGE ONLY) ===== */
+  .theme-toggle {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1px solid #d0d0d0;
+    background: #f9f9f9;
+    color: #1a1a1a;
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+  }
+
+  .theme-toggle:hover {
+    background: #ececec;
+  }
+
+  /* ===== DARK THEME (WINDOWS 11 NOTEPAD DARK) ===== */
+  body.dark {
+    background: #181818;
+    color: #f3f3f3;
+  }
+
+  body.dark .top-bar {
+    background: #202020;
+    border-bottom-color: #333;
+  }
+
+  body.dark .top-bar-title {
+    color: #f3f3f3;
+  }
+
+  body.dark .theme-toggle {
+    background: #2c2c2c;
+    border-color: #444;
+    color: #f3f3f3;
+  }
+
+  body.dark .theme-toggle:hover {
+    background: #383838;
+  }
+
+  body.dark .section-label {
+    color: #aaa;
+  }
+
+  body.dark .card {
+    background: #242424;
+    border-color: #353535;
+  }
+
+  body.dark .card:hover {
+    border-color: #60cdff;
+    box-shadow: 0 4px 16px rgba(96,205,255,.15);
+  }
+
+  body.dark .card-title {
+    color: #f3f3f3;
+  }
+
+  body.dark .card-hint {
+    color: #999;
+  }
+
+  body.dark .card-icon {
+    background: #1b2d3e;
+  }
+
+  /* Notepad Dark Theme */
+  body.dark #notepad-overlay {
+    background: #1a1a1a;
+  }
+
+  body.dark .np-titlebar {
+    background: #1a1a1a;
+  }
+
+  body.dark .np-tab {
+    color: #a8a8a8;
+  }
+
+  body.dark .np-tab:hover:not(.active) {
+    background: rgba(255, 255, 255, .06);
+  }
+
+  body.dark .np-tab.active {
+    background: #2c2c2c;
+    color: #ffffff;
+    border-color: #383838;
+  }
+
+  body.dark .np-tab-close-btn {
+    color: #ccc;
+  }
+
+  body.dark .np-tab-close-btn:hover,
+  body.dark .np-tab.active .np-tab-close-btn:hover {
+    background: rgba(255, 255, 255, .12);
+    color: #fff;
+  }
+
+  body.dark .np-tab-dot {
+    background: #ccc;
+  }
+
+  body.dark .np-tab-new {
+    color: #ccc;
+  }
+
+  body.dark .np-tab-new:hover {
+    background: rgba(255, 255, 255, .08);
+    color: #fff;
+  }
+
+  body.dark .np-winbtn svg line,
+  body.dark .np-winbtn svg rect,
+  body.dark .np-winbtn svg path {
+    stroke: #ffffff;
+  }
+
+  body.dark .np-winbtn:hover {
+    background: rgba(255, 255, 255, .08);
+  }
+
+  body.dark .np-winbtn.close:hover {
+    background: #c42b1c;
+  }
+
+  body.dark .np-menubar {
+    background: #2c2c2c;
+    border-bottom-color: #383838;
+  }
+
+  body.dark .np-menu-item {
+    color: #f3f3f3;
+  }
+
+  body.dark .np-menu-item:hover,
+  body.dark .np-menu-item.active {
+    background: rgba(255, 255, 255, .08);
+  }
+
+  body.dark .np-dropdown,
+  body.dark .np-submenu {
+    background: #2c2c2c;
+    border-color: #444;
+    box-shadow: 0 6px 24px rgba(0,0,0,.45);
+  }
+
+  body.dark .np-dd-item {
+    color: #f3f3f3;
+  }
+
+  body.dark .np-dd-item:hover {
+    background: #3a3a3a;
+    color: #fff;
+  }
+
+  body.dark .np-dd-item.disabled {
+    color: #666;
+  }
+
+  body.dark .np-dd-item .shortcut,
+  body.dark .np-dd-item .dd-arrow {
+    color: #999;
+  }
+
+  body.dark .np-dd-sep {
+    background: #3e3e3e;
+  }
+
+  body.dark .np-tb-btn:hover,
+  body.dark .np-copy-btn:hover {
+    background: rgba(255, 255, 255, .08);
+  }
+
+  body.dark .np-copy-btn svg rect,
+  body.dark .np-copy-btn svg path,
+  body.dark .np-tb-btn svg path {
+    stroke: #e8e8e8;
+  }
+
+  body.dark .np-tb-split svg path[fill="#1a1a1a"] {
+    fill: #e8e8e8;
+  }
+
+  body.dark .np-content,
+  body.dark .np-textarea {
+    background: #272727;
+    color: #f3f3f3;
+    caret-color: #60cdff;
+  }
+
+  body.dark .np-textarea::-webkit-scrollbar-track {
+    background: #272727;
+  }
+
+  body.dark .np-textarea::-webkit-scrollbar-thumb {
+    background: #555;
+  }
+
+  body.dark .np-textarea::-webkit-scrollbar-thumb:hover {
+    background: #777;
+  }
+
+  body.dark .np-statusbar {
+    background: #1f1f1f;
+    border-top-color: #333;
+    color: #b0b0b0;
+  }
 </style>
 </head>
 <body>
@@ -620,6 +857,10 @@
       <rect x="7" y="13.8" width="10" height="1.8" rx="0.9" fill="#005575"/>
     </svg>
     <span class="top-bar-title">SY B.Tech — Applied Mathematics Lab &nbsp;|&nbsp; Practicals Index</span>
+    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle Light / Dark Theme">
+      <span id="theme-icon">🌙</span>
+      <span id="theme-label">Dark</span>
+    </button>
   </div>
 
   <div class="hero">
@@ -837,7 +1078,11 @@
           <div class="np-dd-item" onclick="menuAction('new-markdown')">New Markdown tab</div>
           <div class="np-dd-sep"></div>
           <div class="np-dd-item" onclick="menuAction('open')">Open<span class="shortcut">Ctrl+O</span></div>
-          <div class="np-dd-item" onclick="menuAction('recent')">Recent<span class="dd-arrow">›</span></div>
+          <div class="np-dd-item np-dd-has-sub">Recent<span class="dd-arrow">›</span>
+            <div class="np-submenu">
+              <div class="np-dd-item" onclick="downloadOfflineHtml(event)">am_lab_offline.html</div>
+            </div>
+          </div>
           <div class="np-dd-sep"></div>
           <div class="np-dd-item" onclick="menuAction('save')">Save<span class="shortcut">Ctrl+S</span></div>
           <div class="np-dd-item" onclick="exportToNotepad()">Save as<span class="shortcut">Ctrl+Shift+S</span></div>
@@ -973,7 +1218,7 @@ var DATA = {
   '5A': { title: 'Practical 5A — Karl Pearson\'s Coefficient of Correlation', code: 'import numpy as np\nimport matplotlib.pyplot as plt\ndef pearson_correlation(x, y):\n    """Compute Karl Pearson\'s correlation coefficient from first principles."""\n    x = np.asarray(x, dtype=float)\n    y = np.asarray(y, dtype=float)\n    x_mean, y_mean = x.mean(), y.mean()\n\n    numerator = np.sum((x - x_mean) * (y - y_mean))\n    denominator = np.sqrt(np.sum((x - x_mean) ** 2)) * np.sqrt(np.sum((y - y_mean) ** 2))\n    return numerator / denominator\n\nhours_studied = [2, 4, 6, 8, 10, 3, 7, 5, 9, 1]\nmarks_obtained = [50, 60, 68, 82, 90, 55, 75, 65, 88, 40]\n\nr_manual = pearson_correlation(hours_studied, marks_obtained)\nr_numpy = np.corrcoef(hours_studied, marks_obtained)[0, 1]\n\nprint(f"Pearson correlation coefficient (from scratch) : {r_manual:.4f}")\nprint(f"Pearson correlation coefficient (numpy check)  : {r_numpy:.4f}")\n\nif r_manual > 0.7:\n    strength = "strong positive"\nelif r_manual > 0.3:\n    strength = "moderate positive"\nelif r_manual > -0.3:\n    strength = "weak/no linear"\nelif r_manual > -0.7:\n    strength = "moderate negative"\nelse:\n    strength = "strong negative"\nprint(f"Interpretation: a {strength} linear relationship between hours studied and marks.")\n\nplt.figure(figsize=(7, 5))\nplt.scatter(hours_studied, marks_obtained, color="teal", s=60, label="Data points")\nm, c = np.polyfit(hours_studied, marks_obtained, 1)\nxs = np.linspace(min(hours_studied), max(hours_studied), 100)\nplt.plot(xs, m * xs + c, "r--", label=f"Best-fit line (slope={m:.2f})")\nplt.title(f"Hours Studied vs Marks Obtained  (r = {r_manual:.3f})")\nplt.xlabel("Hours Studied")\nplt.ylabel("Marks Obtained")\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()' },
   '5D': { title: 'Practical 5D — Multiple Linear Regression', code: 'import pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.metrics import mean_squared_error, r2_score\n\nnp.random.seed(42)\nn = 120\n\nsize = np.random.randint(500, 4000, n)\nbedrooms = np.random.randint(1, 6, n)\nbathrooms = np.random.randint(1, 4, n)\ndistance = np.random.randint(1, 30, n)\n\nprice = (\n    3000 * bedrooms\n    + 5000 * bathrooms\n    + 200 * size\n    - 1500 * distance\n    + np.random.randint(-10000, 10000, n)\n)\n\nhouse_data = pd.DataFrame({\n    "Size_sqft": size,\n    "Bedrooms": bedrooms,\n    "Bathrooms": bathrooms,\n    "Distance_km": distance,\n    "Price": price,\n})\nprint("Sample of the dataset:")\nprint(house_data.head())\n\nX = house_data[["Size_sqft", "Bedrooms", "Bathrooms", "Distance_km"]]\ny = house_data["Price"]\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\nmodel = LinearRegression()\nmodel.fit(X_train, y_train)\n\ny_pred = model.predict(X_test)\nmse = mean_squared_error(y_test, y_pred)\nr2 = r2_score(y_test, y_pred)\n\nprint(f"\\nCoefficients (beta_1..beta_4): {np.round(model.coef_, 2)}")\nprint(f"Intercept (beta_0)            : {model.intercept_:.2f}")\nprint(f"Mean Squared Error (MSE)      : {mse:,.2f}")\nprint(f"R^2 Score                     : {r2:.4f}")\n\nprint("\\nFitted regression equation:")\nprint(f"Price = {model.intercept_:.2f} "\n      f"+ ({model.coef_[0]:.2f} * Size_sqft) "\n      f"+ ({model.coef_[1]:.2f} * Bedrooms) "\n      f"+ ({model.coef_[2]:.2f} * Bathrooms) "\n      f"+ ({model.coef_[3]:.2f} * Distance_km)")\n\nfig, axes = plt.subplots(1, 2, figsize=(12, 5))\n\naxes[0].scatter(y_test, y_pred, color="steelblue", alpha=0.7)\naxes[0].plot([y.min(), y.max()], [y.min(), y.max()], "r--", lw=2)\naxes[0].set_xlabel("Actual Price")\naxes[0].set_ylabel("Predicted Price")\naxes[0].set_title("Actual vs Predicted Price")\n\nresiduals = y_test - y_pred\naxes[1].scatter(y_pred, residuals, color="seagreen", alpha=0.7)\naxes[1].axhline(0, color="red", linestyle="--")\naxes[1].set_xlabel("Predicted Price")\naxes[1].set_ylabel("Residual (Actual - Predicted)")\naxes[1].set_title("Residual Plot")\n\nplt.tight_layout()\nplt.show()' },
   '6A': { title: 'Practical 6A — Lagrange\'s Interpolation Method', code: 'import numpy as np\nimport matplotlib.pyplot as plt\n\ndef lagrange_interpolation(x_points, y_points, x_val):\n    """\n    Estimate y at x_val using Lagrange interpolation through the given points.\n    x_points, y_points : known data points\n    x_val               : the point at which to interpolate\n    """\n    n = len(x_points)\n    result = 0.0\n    for i in range(n):\n        term = y_points[i]\n        for j in range(n):\n            if i != j:\n                term *= (x_val - x_points[j]) / (x_points[i] - x_points[j])\n        result += term\n    return result\n\nx = np.array([1, 2, 3, 4, 5])\ny = np.array([2, 4, 1, 3, 7])\nx_new = 2.5\n\ny_new = lagrange_interpolation(x, y, x_new)\nprint(f"Interpolated value at x = {x_new} is y = {y_new:.4f}")\n\nx_range = np.linspace(min(x), max(x), 200)\ny_range = [lagrange_interpolation(x, y, xi) for xi in x_range]\n\nplt.figure(figsize=(8, 5))\nplt.scatter(x, y, color="red", zorder=5, label="Known data points")\nplt.plot(x_range, y_range, color="blue", label="Lagrange interpolation curve")\nplt.scatter([x_new], [y_new], color="green", zorder=5, marker="x", s=100,\n            label=f"Interpolated point (x={x_new})")\nplt.title("Lagrange Interpolation")\nplt.xlabel("x")\nplt.ylabel("y")\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()' },
-  '6B': { title: 'Practical 6B — Newton\'s Divided-Difference Interpolation', code: 'import numpy as np\nimport matplotlib.pyplot as plt\n\ndef divided_diff(x, y):\n    """Build the divided-difference table. Returns the full n x n table."""\n    n = len(y)\n    table = [[0.0] * n for _ in range(n)]\n    for i in range(n):\n        table[i][0] = y[i]\n    for j in range(1, n):\n        for i in range(n - j):\n            table[i][j] = (table[i + 1][j - 1] - table[i][j - 1]) / (x[i + j] - x[i])\n    return table\n\nprint(table)\n\ndef newton_interpolation(x, y, value):\n    """Estimate y at \'value\' using Newton\'s divided-difference formula."""\n    n = len(x)\n    table = divided_diff(x, y)\n    result = table[0][0]\n    product_term = 1.0\n    for i in range(1, n):\n        product_term *= (value - x[i - 1])\n        result += table[0][i] * product_term\n    return result\n\nx_points = [1, 2, 3, 4]\ny_points = [1, 4, 9, 16]\n\ntable = divided_diff(x_points, y_points)\nprint("Divided-difference table (row i, column j = f[x_i,...,x_{i+j}]):")\nfor row in table:\n    print(["%.4f" % v for v in row])\n\nvalue_to_interpolate = 2.5\ninterpolated_value = newton_interpolation(x_points, y_points, value_to_interpolate)\nprint(f"\\nInterpolated value at x = {value_to_interpolate} is {interpolated_value:.4f}")\nprint("(Exact x^2 value would be 6.25 - matches, since the data is exactly quadratic.)")\n\nx_range = np.linspace(min(x_points), max(x_points), 200)\ny_range = [newton_interpolation(x_points, y_points, xi) for xi in x_range]\n\nplt.figure(figsize=(8, 5))\nplt.scatter(x_points, y_points, color="red", zorder=5, label="Known data points")\nplt.plot(x_range, y_range, color="purple", label="Newton interpolation curve")\nplt.scatter([value_to_interpolate], [interpolated_value], color="green", marker="x",\n            s=100, zorder=5, label=f"Interpolated point (x={value_to_interpolate})")\nplt.title("Newton\'s Divided-Difference Interpolation")\nplt.xlabel("x")\nplt.ylabel("y")\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()' }
+  '6B': { title: 'Practical 6B — Newton\'s Divided-Difference Interpolation', code: 'import numpy as np\nimport matplotlib.pyplot as plt\n\ndef divided_diff(x, y):\n    """Build the divided-difference table. Returns the full n x n table."""\n    n = len(y)\n    table = [[0.0] * n for _ in range(n)]\n    for i in range(n):\n        table[i][0] = y[i]\n    for j in range(1, n):\n        for i in range(n - j):\n            table[i][j] = (table[i + 1][j - 1] - table[i][j - 1]) / (x[i + j] - x[i])\n    return table\n\ndef newton_interpolation(x, y, value):\n    """Estimate y at \'value\' using Newton\'s divided-difference formula."""\n    n = len(x)\n    table = divided_diff(x, y)\n    result = table[0][0]\n    product_term = 1.0\n    for i in range(1, n):\n        product_term *= (value - x[i - 1])\n        result += table[0][i] * product_term\n    return result\n\nx_points = [1, 2, 3, 4]\ny_points = [1, 4, 9, 16]\n\ntable = divided_diff(x_points, y_points)\nprint("Divided-difference table (row i, column j = f[x_i,...,x_{i+j}]):")\nfor row in table:\n    print(["%.4f" % v for v in row])\n\nvalue_to_interpolate = 2.5\ninterpolated_value = newton_interpolation(x_points, y_points, value_to_interpolate)\nprint(f"\\nInterpolated value at x = {value_to_interpolate} is {interpolated_value:.4f}")\nprint("(Exact x^2 value would be 6.25 - matches, since the data is exactly quadratic.)")\n\nx_range = np.linspace(min(x_points), max(x_points), 200)\ny_range = [newton_interpolation(x_points, y_points, xi) for xi in x_range]\n\nplt.figure(figsize=(8, 5))\nplt.scatter(x_points, y_points, color="red", zorder=5, label="Known data points")\nplt.plot(x_range, y_range, color="purple", label="Newton interpolation curve")\nplt.scatter([value_to_interpolate], [interpolated_value], color="green", marker="x",\n            s=100, zorder=5, label=f"Interpolated point (x={value_to_interpolate})")\nplt.title("Newton\'s Divided-Difference Interpolation")\nplt.xlabel("x")\nplt.ylabel("y")\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()' }
 };
 
 function openNotepad(key) {
@@ -1177,6 +1422,24 @@ function exportToNotepad() {
   setTimeout(function() { btn.classList.remove('saved'); }, 1800);
 }
 
+function downloadOfflineHtml(e) {
+  if (e) e.stopPropagation();
+  closeAllMenus();
+  var clone = document.documentElement.cloneNode(true);
+  var overlay = clone.querySelector('#notepad-overlay');
+  if (overlay) overlay.classList.remove('open');
+  var html = '<!DOCTYPE html>\n' + clone.outerHTML;
+  var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'am_lab_offline.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 function updateCursorInfo(ta) {
   var val = ta.value;
   var pos = ta.selectionStart || 0;
@@ -1304,6 +1567,26 @@ function toggleWordWrap() {
   ta.style.overflowX = wordWrapOn ? 'hidden' : 'auto';
   document.getElementById('check-wordwrap').textContent = wordWrapOn ? '✓' : '';
 }
+
+function applyTheme(isDark) {
+  document.body.classList.toggle('dark', isDark);
+  var icon = document.getElementById('theme-icon');
+  var label = document.getElementById('theme-label');
+  if (icon) icon.textContent = isDark ? '☀️' : '🌙';
+  if (label) label.textContent = isDark ? 'Light' : 'Dark';
+}
+
+function toggleTheme() {
+  var isDark = !document.body.classList.contains('dark');
+  applyTheme(isDark);
+  try { localStorage.setItem('am_lab_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+}
+
+(function() {
+  try {
+    if (localStorage.getItem('am_lab_theme') === 'dark') applyTheme(true);
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>
