@@ -599,6 +599,195 @@
     gap: 24px;
   }
 
+  /* ===== WINDOWS 11 TASKBAR (SHOWN IN F11 FULLSCREEN) ===== */
+  .win-taskbar {
+    display: none;
+    height: 48px;
+    background: rgba(243, 243, 243, 0.96);
+    border-top: 1px solid #d5d5d5;
+    padding: 0 12px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    user-select: none;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: #1a1a1a;
+  }
+
+  body.is-fullscreen .win-taskbar {
+    display: flex;
+  }
+
+  @media all and (display-mode: fullscreen) {
+    .win-taskbar {
+      display: flex;
+    }
+  }
+
+  .wtb-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 140px;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+
+  .wtb-left:hover {
+    background: rgba(0, 0, 0, .05);
+  }
+
+  .wtb-weather-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+    font-size: 11px;
+  }
+
+  .wtb-weather-sub {
+    color: #666;
+    font-size: 10px;
+  }
+
+  .wtb-center {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+  }
+
+  .wtb-app {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: default;
+  }
+
+  .wtb-app:hover {
+    background: rgba(0, 0, 0, .06);
+  }
+
+  .wtb-app.active {
+    background: rgba(0, 0, 0, .07);
+    border: 1px solid rgba(0, 0, 0, .06);
+  }
+
+  .wtb-app.active::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    width: 16px;
+    height: 3px;
+    border-radius: 2px;
+    background: #0078d4;
+  }
+
+  .wtb-search {
+    height: 32px;
+    width: 210px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #d4d4d4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px;
+    font-size: 12px;
+    color: #666;
+    margin: 0 4px;
+  }
+
+  .wtb-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 140px;
+    justify-content: flex-end;
+    font-size: 11px;
+  }
+
+  .wtb-tray-icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 6px;
+    border-radius: 4px;
+  }
+
+  .wtb-tray-icons:hover {
+    background: rgba(0, 0, 0, .05);
+  }
+
+  .wtb-lang {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.1;
+    font-size: 10px;
+    padding: 3px 5px;
+    border-radius: 4px;
+  }
+
+  .wtb-clock {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.25;
+    font-size: 11px;
+    padding: 3px 6px;
+    border-radius: 4px;
+  }
+
+  .wtb-clock:hover,
+  .wtb-lang:hover {
+    background: rgba(0, 0, 0, .05);
+  }
+
+  /* Taskbar Dark Theme */
+  body.dark .win-taskbar {
+    background: rgba(28, 28, 28, 0.96);
+    border-top-color: #333;
+    color: #f3f3f3;
+  }
+
+  body.dark .wtb-weather-sub {
+    color: #a8a8a8;
+  }
+
+  body.dark .wtb-left:hover,
+  body.dark .wtb-app:hover,
+  body.dark .wtb-tray-icons:hover,
+  body.dark .wtb-clock:hover,
+  body.dark .wtb-lang:hover {
+    background: rgba(255, 255, 255, .07);
+  }
+
+  body.dark .wtb-app.active {
+    background: rgba(255, 255, 255, .09);
+    border-color: rgba(255, 255, 255, .08);
+  }
+
+  body.dark .wtb-app.active::after {
+    background: #60cdff;
+  }
+
+  body.dark .wtb-search {
+    background: #2f2f2f;
+    border-color: #444;
+    color: #cfcfcf;
+  }
+
+  body.dark .wtb-search svg circle,
+  body.dark .wtb-search svg path,
+  body.dark .wtb-tray-icons svg path,
+  body.dark .wtb-tray-icons svg rect {
+    stroke: #e8e8e8;
+  }
+
   /* Scrollbar */
   .np-textarea::-webkit-scrollbar {
     width: 8px;
@@ -1207,6 +1396,90 @@
       <span>UTF-8</span>
     </div>
   </div>
+
+  <!-- Windows 11 Taskbar (visible in F11 fullscreen) -->
+  <div class="win-taskbar" id="win-taskbar">
+    <div class="wtb-left">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="6" fill="#f5a623"/>
+        <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4" stroke="#f5a623" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <div class="wtb-weather-text">
+        <span>20°C</span>
+        <span class="wtb-weather-sub">Sunny</span>
+      </div>
+    </div>
+
+    <div class="wtb-center">
+      <!-- Start -->
+      <div class="wtb-app" title="Start">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <rect x="2.5" y="2.5" width="9" height="9" rx="1" fill="#4cc2ff"/>
+          <rect x="12.5" y="2.5" width="9" height="9" rx="1" fill="#4cc2ff"/>
+          <rect x="2.5" y="12.5" width="9" height="9" rx="1" fill="#2899f5"/>
+          <rect x="12.5" y="12.5" width="9" height="9" rx="1" fill="#2899f5"/>
+        </svg>
+      </div>
+      <!-- Search -->
+      <div class="wtb-search" title="Search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <circle cx="11" cy="11" r="7" stroke="#666" stroke-width="2"/>
+          <path d="M16.5 16.5L21 21" stroke="#666" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span>Search</span>
+      </div>
+      <!-- File Explorer (pinned, closed) -->
+      <div class="wtb-app" title="File Explorer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M2 6a2 2 0 012-2h5l2 2h9a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" fill="#f7c644"/>
+          <path d="M2 9h20v9a2 2 0 01-2 2H4a2 2 0 01-2-2V9z" fill="#ffd966"/>
+          <rect x="9" y="12" width="6" height="4" rx="0.8" fill="#0078d4"/>
+        </svg>
+      </div>
+      <!-- Notepad (ONLY open app) -->
+      <div class="wtb-app active" title="Notepad">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
+          <rect x="4" y="19" width="16" height="3" rx="1.2" fill="#9c4b00"/>
+          <rect x="4" y="3.5" width="16" height="14.5" rx="1.5" fill="#5ac8ee"/>
+          <rect x="6" y="1.8" width="2" height="3.2" rx="1" fill="#005575"/>
+          <rect x="9.3" y="1.8" width="2" height="3.2" rx="1" fill="#005575"/>
+          <rect x="12.7" y="1.8" width="2" height="3.2" rx="1" fill="#005575"/>
+          <rect x="16" y="1.8" width="2" height="3.2" rx="1" fill="#005575"/>
+          <rect x="7" y="7.4" width="10" height="1.8" rx="0.9" fill="#005575"/>
+          <rect x="7" y="10.6" width="10" height="1.8" rx="0.9" fill="#005575"/>
+          <rect x="7" y="13.8" width="10" height="1.8" rx="0.9" fill="#005575"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="wtb-right">
+      <div class="wtb-lang">
+        <span>ENG</span>
+        <span>IN</span>
+      </div>
+      <div class="wtb-tray-icons">
+        <!-- Wi-Fi -->
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M2 8.5C7.5 3.5 16.5 3.5 22 8.5M5.5 12.5c3.8-3.3 9.2-3.3 13 0M9 16.5c1.8-1.5 4.2-1.5 6 0" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="12" cy="19.5" r="1.2" fill="currentColor"/>
+        </svg>
+        <!-- Volume -->
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M4 9v6h4l5 4V5L8 9H4zM16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <!-- Battery -->
+        <svg width="16" height="14" viewBox="0 0 24 24" fill="none">
+          <rect x="2" y="7" width="18" height="10" rx="2" stroke="#1a1a1a" stroke-width="1.6"/>
+          <rect x="4" y="9" width="13" height="6" rx="1" fill="#4ccb6a"/>
+          <path d="M21 10v4" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="wtb-clock">
+        <span id="wtb-time">09:00</span>
+        <span id="wtb-date">27-11-2026</span>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -1652,6 +1925,34 @@ function toggleTheme() {
     if (localStorage.getItem('am_lab_theme') === 'dark') applyTheme(true);
   } catch (e) {}
 })();
+
+function checkFullscreen() {
+  var isFs = !!(document.fullscreenElement ||
+    (window.innerHeight >= screen.height - 2 && window.innerWidth >= screen.width - 2));
+  document.body.classList.toggle('is-fullscreen', isFs);
+}
+
+function updateTaskbarClock() {
+  var now = new Date();
+  var hh = String(now.getHours()).padStart(2, '0');
+  var mm = String(now.getMinutes()).padStart(2, '0');
+  var dd = String(now.getDate()).padStart(2, '0');
+  var mo = String(now.getMonth() + 1).padStart(2, '0');
+  var yyyy = now.getFullYear();
+  var t = document.getElementById('wtb-time');
+  var d = document.getElementById('wtb-date');
+  if (t) t.textContent = hh + ':' + mm;
+  if (d) d.textContent = dd + '-' + mo + '-' + yyyy;
+}
+
+window.addEventListener('resize', checkFullscreen);
+document.addEventListener('fullscreenchange', checkFullscreen);
+window.addEventListener('keydown', function(e) {
+  if (e.key === 'F11') setTimeout(checkFullscreen, 150);
+});
+checkFullscreen();
+updateTaskbarClock();
+setInterval(updateTaskbarClock, 10000);
 </script>
 </body>
 </html>
