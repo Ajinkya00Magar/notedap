@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: notedap-am-lab
+    runtime: static
+    staticPublishPath: .
+    pullRequestPreviewsEnabled: true
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+    routes:
+      - type: rewrite
+        source: /
+        destination: /index.html
